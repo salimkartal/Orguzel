@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Orguzel.Models
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,15 +38,19 @@
                                   Anasayfa  
                                 </a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin Paneli
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Kategoriler</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Ürünler</a></li>
-                                </ul>
-                            </li>
+                            @if(User.IsInRole(Diger.Role_Admin))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin Paneli
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Kategoriler</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Ürünler</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Kullanıcılar</a></li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                         <partial name="_LoginPartial" />
                     </div>

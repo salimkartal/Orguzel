@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Orguzel.Data;
+using Orguzel.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +12,23 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddSingleton<IEmailSender,EmailSender>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+    options.AppId = "1049724799380183";
+    options.AppSecret = "a830bc56a854a78105d867157daf75fe";
+});
 
 var app = builder.Build();
 
