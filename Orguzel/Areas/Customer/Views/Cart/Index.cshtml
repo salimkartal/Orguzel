@@ -76,7 +76,16 @@
                         <div class="col-md-4">
                         </div>
                         <div class="col-md-4">
-                            <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Sipariş Ver</a>
+                            @if(!Model.OrderHeader.ApplicationUser.EmailConfirmed)
+                            {
+                                <div>
+                                    <button type="submit" class="btn btn-warning form-control text-white">Lütfen Email Onaylamak için tıklayınız...</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-success form-control">Sipariş Ver</a>
+                            }
                         </div>
                     </div>
                 </div>
